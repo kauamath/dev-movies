@@ -43,7 +43,7 @@ export const Info = styled.div`
     font-weight: 500;
     color: #ffffff;
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
   }
 `
 export const Poster = styled.div`

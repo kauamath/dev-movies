@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
 
 import Button from '../../components/Button'
+import Slider from '../../components/Slider'
 import api from '../../services/api'
+import { getImages } from '../../utils/getImages'
 import { Background, Info, Poster, Container, ContainerButton } from './styles'
 
 function Home() {
-  const [movies, setMovies] = useState()
+  const [movie, setMovie] = useState()
+  const [Upcoming, setUpcoming] = useState()
+  const [topMovies, setTopMovies] = useState()
+  const [topSeries, setTopSeries] = useState()
+  const [topPeople, setTopPeople] = useState()
 
   useEffect(() => {
     async function getMovies() {
@@ -13,35 +19,72 @@ function Home() {
         data: { results }
       } = await api.get('/movie/popular')
 
-      setMovies(results[4])
+      setMovie(results[5])
     }
+
+    async function getUpcoming() {
+      const {
+        data: { results }
+      } = await api.get('/movie/upcoming')
+
+      setUpcoming(results)
+    }
+
+    async function getTopMovies() {
+      const {
+        data: { results }
+      } = await api.get('/movie/top_rated')
+
+      setTopMovies(results)
+    }
+
+    async function getTopSeries() {
+      const {
+        data: { results }
+      } = await api.get('/tv/top_rated')
+
+      setTopSeries(results)
+    }
+
+    async function getTopPeople() {
+      const {
+        data: { results }
+      } = await api.get('/person/popular')
+
+      console.log(results)
+      setTopPeople(results)
+    }
+
     getMovies()
+    getUpcoming()
+    getTopMovies()
+    getTopSeries()
+    getTopPeople()
   }, [])
 
   return (
     <>
-      {movies && (
-        <Background
-          img={`https://image.tmdb.org/t/p/original${movies.backdrop_path}`}
-        >
+      {movie && (
+        <Background img={getImages(movie.backdrop_path)}>
           <Container>
             <Info>
-              <h1>{movies.title}</h1>
-              <p>{movies.overview}</p>
+              <h1>{movie.title}</h1>
+              <p>{movie.overview}</p>
               <ContainerButton>
                 <Button red>Assista Agora</Button>
                 <Button>Assista o Trailer</Button>
               </ContainerButton>
             </Info>
             <Poster>
-              <img
-                alt="capa-do-filme"
-                src={`https://image.tmdb.org/t/p/original${movies.poster_path}`}
-              />
+              <img alt="capa-do-filme" src={getImages(movie.poster_path)} />
             </Poster>
           </Container>
         </Background>
       )}
+      {Upcoming && <Slider info={Upcoming} title={'Lançamentos 2023'} />}
+      {topMovies && <Slider info={topMovies} title={'Top Filmes'} />}
+      {topSeries && <Slider info={topSeries} title={'Top Séries'} />}
+      {topPeople && <Slider info={topPeople} title={'Famosos'} />}
     </>
   )
 }
