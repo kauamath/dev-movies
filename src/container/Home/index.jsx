@@ -19,7 +19,7 @@ function Home() {
         data: { results }
       } = await api.get('/movie/popular')
 
-      setMovie(results[5])
+      setMovie(results[13])
     }
 
     async function getUpcoming() {
@@ -51,7 +51,6 @@ function Home() {
         data: { results }
       } = await api.get('/person/popular')
 
-      console.log(results)
       setTopPeople(results)
     }
 
