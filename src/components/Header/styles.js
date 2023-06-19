@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const Container = styled.div`
+  min-height: 100px;
   z-index: 99;
   position: fixed;
   top: 0;
@@ -8,6 +9,9 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 50px;
+  background-color: ${(props) =>
+    props.changeBackground ? '#000000' : 'transparent'};
+  transition: background-color 0.7s ease-in-out;
 
   img {
     width: 25%;

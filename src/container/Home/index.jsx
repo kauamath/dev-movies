@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 
 import Button from '../../components/Button'
+import Modal from '../../components/Modal'
 import Slider from '../../components/Slider'
 import api from '../../services/api'
 import { getImages } from '../../utils/getImages'
 import { Background, Info, Poster, Container, ContainerButton } from './styles'
 
 function Home() {
+  const [showModal, setShowModal] = useState(false)
   const [movie, setMovie] = useState()
   const [Upcoming, setUpcoming] = useState()
   const [topMovies, setTopMovies] = useState()
@@ -19,7 +21,8 @@ function Home() {
         data: { results }
       } = await api.get('/movie/popular')
 
-      setMovie(results[13])
+      console.log(results)
+      setMovie(results[3])
     }
 
     async function getUpcoming() {
@@ -65,13 +68,18 @@ function Home() {
     <>
       {movie && (
         <Background img={getImages(movie.backdrop_path)}>
+          {showModal && (
+            <Modal movieId={movie.id} setShowModal={setShowModal} />
+          )}
           <Container>
             <Info>
               <h1>{movie.title}</h1>
               <p>{movie.overview}</p>
               <ContainerButton>
                 <Button red>Assista Agora</Button>
-                <Button>Assista o Trailer</Button>
+                <Button onClick={() => setShowModal(true)}>
+                  Assista o Trailer
+                </Button>
               </ContainerButton>
             </Info>
             <Poster>
