@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import Credits from '../../components/Credits'
+import SpanGenres from '../../components/SpanGenres'
 import {
   getMovieById,
   getMovieCredits,
@@ -47,9 +49,11 @@ function Detail() {
             </Cover>
             <Info>
               <h2>{movie.title}</h2>
-              <div>Generos</div>
+              <SpanGenres genres={movie.genres} />
               <p>{movie.overview}</p>
-              <div>Créditos</div>
+              <div>
+                <Credits credits={movieCredits} />
+              </div>
             </Info>
           </Container>
         </>
